@@ -4,6 +4,8 @@ import { Menu, X, ArrowRight, Ruler, Cpu, Cog, Hand, ClipboardCheck, Truck, Shie
 import Reveal from '@/components/Reveal';
 import CountUp from '@/components/CountUp';
 import Seo from '@/components/Seo';
+import logo from '@/assets/img/Canale.png'
+
 
 const IMG = {
     hero: 'https://images.hostinger.com/f59067b6-81d5-45a4-b456-3c312e0ba51b.png',
@@ -29,10 +31,12 @@ function Header() {
     return (
         <header className="sticky top-0 z-50 border-b border-border/80 bg-white/95 backdrop-blur">
             <div className="rail flex h-[72px] items-center justify-between gap-6">
-                <a href="#inicio" className="flex items-baseline gap-2">
-                    <span className="font-display text-2xl font-extrabold uppercase tracking-tight text-foreground">Canale</span>
-                    <span className="h-2 w-2 translate-y-[-2px] bg-primary" aria-hidden="true" />
-                    <span className="hidden text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground sm:inline">SRL</span>
+                <a href="#inicio" className="flex items-center">
+                    <img
+                        src={logo}
+                        alt="Canale SRL"
+                        className="h-12 w-auto"
+                    />
                 </a>
                 <nav aria-label="Navegación principal" className="hidden items-center gap-7 lg:flex">
                     {NAV.map((n) => (
@@ -70,7 +74,7 @@ function Hero() {
             <div className="rail relative flex min-h-[100dvh] flex-col justify-center py-28">
                 <Reveal>
                     <p className="mb-6 inline-flex items-center gap-3 border border-white/25 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/85">
-                        <span className="h-1.5 w-1.5 bg-primary" aria-hidden="true" /> 1975 — 2025 · 50 años de trayectoria
+                        <span className="h-1.5 w-1.5 bg-primary" aria-hidden="true" /> 1976 — 2026 · más de 50 años de trayectoria
                     </p>
                 </Reveal>
                 <Reveal delay={0.08}>
@@ -99,7 +103,7 @@ function Hero() {
 }
 
 const STATS = [
-    { value: 50, suffix: '', label: 'años de trayectoria' },
+    { value: 50, prefix: '+', label: 'años de trayectoria' },
     { value: 100, prefix: '+', label: 'colaboradores' },
     { value: null, label: 'Diseño personalizado' },
     { value: null, label: 'Capacidad productiva' },
@@ -117,7 +121,7 @@ function Autoridad() {
                 </Reveal>
                 <Reveal delay={0.1}>
                     <p className="text-lg leading-relaxed text-muted-foreground">
-                        Desde Córdoba abastecemos a empresas medianas y grandes de todo el país. Combinamos producción manual y automatizada, tecnología CNC y logística propia para resolver necesidades reales de embalaje industrial, almacenamiento y exportación.
+                        Desde Colonia Caroya, Córdoba abastecemos a empresas medianas y grandes de todo el país. Combinamos producción manual y automatizada, tecnología CNC y logística propia para resolver necesidades reales de embalaje industrial, almacenamiento y exportación.
                     </p>
                 </Reveal>
             </div>
@@ -369,11 +373,11 @@ function Calidad() {
 }
 
 const HITOS = [
-    ['1975', 'Nace el taller familiar Canale, con producción íntegramente manual.'],
+    ['1976', 'Nace el taller familiar Canale, con producción íntegramente manual.'],
     ['1990', 'Primeras líneas dedicadas a pallets para la industria metalúrgica y agro.'],
     ['2005', 'Incorporación de maquinaria automática y embalajes para exportación.'],
     ['2015', 'Certificación ISO 9001 y desarrollo del área de diseño a medida.'],
-    ['2025', 'Más de 100 colaboradores, tecnología CNC, pellets y logística propia.'],
+    ['2026', 'Más de 100 colaboradores, tecnología CNC, pellets y logística propia.'],
 ];
 
 function Historia() {
@@ -437,8 +441,8 @@ function Contacto() {
                     <h2 className="font-display mt-4 text-3xl font-bold leading-tight sm:text-4xl">Solicitar asesoramiento</h2>
                     <p className="mt-5 leading-relaxed text-white/70">Contanos qué necesitás proteger, almacenar o trasladar. Un asesor técnico analiza su caso y propone la solución de embalaje adecuada.</p>
                     <ul className="mt-10 space-y-4 text-white/75">
-                        <li className="flex items-center gap-3"><Phone className="h-4 w-4 text-primary" strokeWidth={1.75} /> +54 351 000 0000</li>
-                        <li className="flex items-center gap-3"><Mail className="h-4 w-4 text-primary" strokeWidth={1.75} /> ventas@canale.com.ar</li>
+                        <li className="flex items-center gap-3"><Phone className="h-4 w-4 text-primary" strokeWidth={1.75} /> +54 9 3525 53-0410</li>
+                        <li className="flex items-center gap-3"><Mail className="h-4 w-4 text-primary" strokeWidth={1.75} /> canaleventas@canalesrl.com.ar</li>
                         <li className="flex items-center gap-3"><MapPin className="h-4 w-4 text-primary" strokeWidth={1.75} /> Córdoba, Argentina</li>
                     </ul>
                 </div>
@@ -504,9 +508,9 @@ function Footer() {
                     {NAV.map((n) => <a key={n.href} href={n.href} className="hover:text-primary">{n.label}</a>)}
                 </nav>
                 <div className="text-sm text-muted-foreground">
-                    <p>Córdoba, Argentina</p>
-                    <p className="mt-2">ventas@canale.com.ar</p>
-                    <p className="mt-2">+54 351 000 0000</p>
+                    <p>Pedro Patat (N) 1500 - (5223) Colonia Caroya - Córdoba, Argentina</p>
+                    <p className="mt-2">canaleventas@canalesrl.com.ar</p>
+                    <p className="mt-2">+54 9 3525 53-0410</p>
                 </div>
             </div>
             <div className="rail mt-10 border-t border-border pt-6 text-xs text-muted-foreground">
@@ -521,10 +525,10 @@ export default function HomePage() {
         <>
             <Helmet>
                 <title>Canale SRL | Pallets, tarimas y embalajes de madera industriales</title>
-                <meta name="description" content="Canale SRL: 50 años fabricando pallets, tarimas, cajones y embalajes de madera personalizados para la industria argentina. Diseño a medida, CNC, NIMF 15 e ISO 9001. Córdoba." />
+                <meta name="description" content="Canale SRL: 50 años fabricando pallets, tarimas, cajones y embalajes de madera personalizados para la industria argentina. Diseño a medida, CNC, NIMF 15 e ISO 9001. Colonia Caroya - Córdoba, Argentina." />
                 <html lang="es" />
             </Helmet>
-            <Seo title="Canale SRL | Embalajes de madera industriales" description="Pallets, tarimas, cajones y embalajes personalizados para empresas. 50 años de trayectoria en Córdoba, Argentina." image={IMG.hero} siteName="Canale SRL" />
+            <Seo title="Canale SRL | Embalajes de madera industriales" description="Pallets, tarimas, cajones y embalajes personalizados para empresas. 50 años de trayectoria en Colonia Caroya - Córdoba, Argentina." image={IMG.hero} siteName="Canale SRL" />
             <Header />
             <main>
                 <Hero />

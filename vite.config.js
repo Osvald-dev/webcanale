@@ -368,6 +368,7 @@ logger.error = (msg, options) => {
 }
 
 export default defineConfig({
+	base: '/webcanale/',
 	optimizeDeps: {
 		include: allDeps,
 	},
