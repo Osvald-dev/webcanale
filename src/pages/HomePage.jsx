@@ -606,12 +606,12 @@ function Contacto() {
                     <h2 className="font-display mt-4 text-3xl font-bold leading-tight sm:text-4xl">Solicitar asesoramiento</h2>
                     <p className="mt-5 leading-relaxed text-white/70">Contanos qué necesitás proteger, almacenar o trasladar. Un asesor técnico analiza su caso y propone la solución de embalaje adecuada.</p>
                     <ul className="mt-10 space-y-4 text-white/75">
-                        <li className="flex items-center gap-3"><Phone className="h-4 w-4 text-primary" strokeWidth={1.75} /> +54 9 3525 53-0410</li>
+                        <li className="flex items-center gap-3"><Phone className="h-4 w-4 text-primary" strokeWidth={1.75} /> <a href="tel:+5493525530410" className="hover:text-primary">+54 9 3525 53-0410</a></li>
                         <li className="flex items-center gap-3">
                             <WhatsAppIcon className="h-4 w-4 text-primary" />
                             <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-primary">Escribinos por WhatsApp</a>
                         </li>
-                        <li className="flex items-center gap-3"><Mail className="h-4 w-4 text-primary" strokeWidth={1.75} /> canaleventas@canalesrl.com.ar</li>
+                        <li className="flex items-center gap-3"><Mail className="h-4 w-4 text-primary" strokeWidth={1.75} /> <a href="mailto:canaleventas@canalesrl.com.ar" className="hover:text-primary">canaleventas@canalesrl.com.ar</a></li>
                         <li className="flex items-center gap-3">
                             <MapPin className="h-4 w-4 shrink-0 text-primary" strokeWidth={1.75} />
                             <a href={MAPS_URL} target="_blank" rel="noreferrer" className="hover:text-primary">{DIRECCION}</a>
@@ -656,6 +656,12 @@ function Contacto() {
                                     <textarea id="mensaje" rows={4} className={field} value={form.mensaje} onChange={set('mensaje')} placeholder="Producto, medidas, volumen estimado, destino..." />
                                 </div>
                             </fieldset>
+                            <div className="mt-6 flex items-center gap-2 border-t border-border pt-4 text-sm text-muted-foreground">
+                                <WhatsAppIcon className="h-4 w-4 shrink-0 text-primary" />
+                                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-primary">
+                                    ¿Tenés un plano, foto o ficha técnica para compartir? Enviánoslo directo por WhatsApp
+                                </a>
+                            </div>
                             {error && <p role="alert" className="mt-4 text-sm font-medium text-primary">{error}</p>}
                             <button
                                 type="submit"
@@ -704,8 +710,8 @@ function Footer() {
                 </nav>
                 <div className="text-sm text-muted-foreground">
                     <p>Pedro Patat (N) 1500 - (5223) Colonia Caroya - Córdoba, Argentina</p>
-                    <p className="mt-2">canaleventas@canalesrl.com.ar</p>
-                    <p className="mt-2">+54 9 3525 53-0410</p>
+                    <p className="mt-2"><a href="mailto:canaleventas@canalesrl.com.ar" className="hover:text-primary">canaleventas@canalesrl.com.ar</a></p>
+                    <p className="mt-2"><a href="tel:+5493525530410" className="hover:text-primary">+54 9 3525 53-0410</a></p>
                 </div>
             </div>
             <div className="rail mt-10 border-t border-border pt-6 text-xs text-muted-foreground">
