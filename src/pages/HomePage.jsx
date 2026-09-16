@@ -8,7 +8,7 @@ import CountUp from '@/components/CountUp';
 import Seo from '@/components/Seo';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import WhatsAppLogo from '@/components/WhatsAppLogo';
-import logo from '@/assets/img/logocanale.png';
+import logo from '@/assets/img/logocanale.webp';
 import hero from '@/assets/img/hero.webp';
 import pallets1 from '@/assets/img/productos/pallets-1.webp';
 import pallets2 from '@/assets/img/productos/pallets-2.webp';
