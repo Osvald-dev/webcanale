@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Menu, X, ArrowRight, Loader2, Ruler, Cpu, Cog, Hand, ClipboardCheck, Truck, ShieldCheck, Leaf, Award, Phone, Mail, MapPin } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, ArrowRight, Loader2, Ruler, Cpu, Cog, Hand, ClipboardCheck, Truck, ShieldCheck, Leaf, Award, Phone, Mail, MapPin, PenTool, Factory } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 import Reveal from '@/components/Reveal';
 import CountUp from '@/components/CountUp';
@@ -8,7 +9,7 @@ import Seo from '@/components/Seo';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import WhatsAppLogo from '@/components/WhatsAppLogo';
 import logo from '@/assets/img/logocanale.png';
-import hero from '@/assets/img/hero.webp';
+import hero from '@/assets/img/canaleempresa.webp';
 import pallets1 from '@/assets/img/productos/pallets-1.webp';
 import pallets2 from '@/assets/img/productos/pallets-2.webp';
 import pallets3 from '@/assets/img/productos/pallets-3.webp';
@@ -18,9 +19,6 @@ import cajones3 from '@/assets/img/productos/cajones-3.webp';
 import pellets1 from '@/assets/img/productos/pellets-1.webp';
 import pellets2 from '@/assets/img/productos/pellets-2.webp';
 import pellets3 from '@/assets/img/productos/pellets-3.webp';
-import iconDiseno from '@/assets/img/diseño.webp';
-import iconCapacidad from '@/assets/img/capacidad.webp';
-import iconLogistica from '@/assets/img/logistica-propia.webp';
 import cnc from '@/assets/img/cnc.webp';
 import logistica from '@/assets/img/camiones.webp';
 import historia from '@/assets/img/historia.webp'
@@ -41,6 +39,23 @@ const WHATSAPP_URL = `https://wa.me/${TELEFONO_E164}?text=${encodeURIComponent(W
 
 function Header() {
     const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (!open) return undefined;
+
+        const onKeyDown = (e) => {
+            if (e.key === 'Escape') setOpen(false);
+        };
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        window.addEventListener('keydown', onKeyDown);
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+            window.removeEventListener('keydown', onKeyDown);
+        };
+    }, [open]);
+
     return (
         <header className="sticky top-0 z-50 border-b border-border/80 bg-white/95 backdrop-blur">
             <div className="rail flex h-[72px] items-center justify-between gap-6">
@@ -60,21 +75,52 @@ function Header() {
                     <a href="#contacto" className="hidden items-center gap-2 bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:brightness-110 active:scale-[0.98] sm:inline-flex">
                         Solicitar asesoramiento
                     </a>
-                    <button type="button" onClick={() => setOpen((v) => !v)} aria-label="Abrir menú" className="lg:hidden p-3 -mr-3 text-foreground">
+                    <button
+                        type="button"
+                        onClick={() => setOpen((v) => !v)}
+                        aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+                        aria-expanded={open}
+                        aria-controls="menu-movil"
+                        className="lg:hidden p-3 -mr-3 text-foreground"
+                    >
                         {open ? <X className="h-6 w-6" strokeWidth={1.75} /> : <Menu className="h-6 w-6" strokeWidth={1.75} />}
                     </button>
                 </div>
             </div>
-            {open && (
-                <nav aria-label="Navegación móvil" className="border-t border-border bg-white lg:hidden">
-                    <div className="rail flex flex-col py-2">
-                        {NAV.map((n) => (
-                            <a key={n.href} href={n.href} onClick={() => setOpen(false)} className="border-b border-border/60 py-4 text-base font-medium text-foreground">{n.label}</a>
-                        ))}
-                        <a href="#contacto" onClick={() => setOpen(false)} className="mt-4 mb-4 bg-primary px-5 py-4 text-center text-base font-semibold text-primary-foreground">Solicitar asesoramiento</a>
-                    </div>
-                </nav>
-            )}
+            <AnimatePresence>
+                {open && (
+                    <motion.div
+                        key="menu-movil-backdrop"
+                        className="fixed inset-x-0 bottom-0 top-[72px] z-40 bg-neutral-950/20 lg:hidden"
+                        onClick={() => setOpen(false)}
+                        aria-hidden="true"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                    />
+                )}
+            </AnimatePresence>
+            <AnimatePresence>
+                {open && (
+                    <motion.nav
+                        id="menu-movil"
+                        aria-label="Navegación móvil"
+                        className="absolute inset-x-0 top-full z-50 border-t border-border/60 bg-white/90 shadow-lg backdrop-blur-md lg:hidden"
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                        <div className="rail flex flex-col py-2">
+                            {NAV.map((n) => (
+                                <a key={n.href} href={n.href} onClick={() => setOpen(false)} className="border-b border-border/60 py-4 text-base font-medium text-foreground">{n.label}</a>
+                            ))}
+                            <a href="#contacto" onClick={() => setOpen(false)} className="mt-4 mb-4 bg-primary px-5 py-4 text-center text-base font-semibold text-primary-foreground">Solicitar asesoramiento</a>
+                        </div>
+                    </motion.nav>
+                )}
+            </AnimatePresence>
         </header>
     );
 }
@@ -84,7 +130,7 @@ function Hero() {
         <section id="inicio" className="relative min-h-[100dvh] w-full overflow-hidden bg-neutral-950">
             <img src={hero} alt="Planta industrial de Canale SRL con pallets de madera y cajones para exportación en Córdoba, Argentina" className="absolute inset-0 h-full w-full object-cover opacity-70" />
             <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/80 to-neutral-950/20" aria-hidden="true" />
-            <div className="rail relative flex min-h-[100dvh] flex-col justify-center py-28">
+            <div className="rail relative flex min-h-[100dvh] flex-col justify-center pt-24 pb-28 sm:pt-28 sm:pb-32">
                 <Reveal>
                     <p className="mb-6 inline-flex items-center gap-3 border border-white/25 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/85">
                         <span className="h-1.5 w-1.5 bg-primary" aria-hidden="true" /> 1976 — 2026 · más de 50 años de trayectoria
@@ -118,9 +164,9 @@ function Hero() {
 const STATS = [
     { value: 50, prefix: '+', label: 'años de trayectoria' },
     { value: 100, prefix: '+', label: 'colaboradores' },
-    { value: null, label: 'Diseño personalizado', icon: iconDiseno },
-    { value: null, label: 'Capacidad productiva', icon: iconCapacidad },
-    { value: null, label: 'Logística propia', icon: iconLogistica },
+    { value: null, label: 'Diseño personalizado', icon: PenTool },
+    { value: null, label: 'Capacidad productiva', icon: Factory },
+    { value: null, label: 'Logística propia', icon: Truck },
 ];
 
 function Autoridad() {
@@ -128,7 +174,8 @@ function Autoridad() {
         <section className="border-b border-border bg-white py-20 lg:py-28">
             <div className="rail grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:items-end">
                 <Reveal>
-                    <h2 className="font-display text-3xl font-bold leading-tight text-foreground sm:text-4xl">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Quiénes somos</p>
+                    <h2 className="font-display mt-4 text-3xl font-bold leading-tight text-foreground sm:text-4xl">
                         50 años de experiencia<br /><span className="text-primary">al servicio de la industria</span>
                     </h2>
                 </Reveal>
@@ -148,7 +195,7 @@ function Autoridad() {
                     </p>
                 ) : (
                     <>
-                        <img src={s.icon} alt="" aria-hidden="true" className="mb-3 h-8 w-8" />
+                        <s.icon className="mb-3 h-8 w-8 text-primary" strokeWidth={1.5} aria-hidden="true" />
                         <span className="mb-3 block h-[3px] w-8 bg-primary" aria-hidden="true" />
                     </>
                 )}
@@ -284,7 +331,7 @@ function ProblemaSolucion() {
         <section id="soluciones" className="bg-neutral-950 py-20 text-white lg:py-28">
             <div className="rail grid gap-14 lg:grid-cols-2 lg:gap-20">
                 <Reveal>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Problema / Solución</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-red-400">Problema / Solución</p>
                     <h2 className="font-display mt-4 text-3xl font-bold leading-tight sm:text-4xl">Cada producto necesita una solución de embalaje diferente</h2>
                     <p className="mt-6 text-lg leading-relaxed text-white/70">
                         No fabricamos un catálogo cerrado: desarrollamos la solución que su producción necesita. Analizamos cada caso y adaptamos el diseño, los materiales y el nivel de protección al recorrido real de la mercadería.
@@ -297,7 +344,7 @@ function ProblemaSolucion() {
                     <ul className="divide-y divide-white/10 border-y border-white/10">
                         {VARIABLES.map((v, i) => (
                             <li key={v} className="flex items-center gap-5 py-5">
-                                <span className="font-display text-sm font-bold text-primary">{String(i + 1).padStart(2, '0')}</span>
+                                <span className="font-display text-sm font-bold text-red-400">{String(i + 1).padStart(2, '0')}</span>
                                 <span className="text-lg font-medium">{v}</span>
                             </li>
                         ))}
@@ -321,7 +368,8 @@ function Personalizacion() {
         <section className="bg-white py-20 lg:py-28">
             <div className="rail">
                 <Reveal>
-                    <h2 className="font-display max-w-3xl text-3xl font-bold leading-tight text-foreground sm:text-4xl">Diseñamos la solución que necesita su producto.</h2>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Cómo trabajamos</p>
+                    <h2 className="font-display mt-4 max-w-3xl text-3xl font-bold leading-tight text-foreground sm:text-4xl">Diseñamos la solución que necesita su producto.</h2>
                 </Reveal>
                 <div className="mt-14 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
                     {PROCESO.map((p, i) => (
@@ -461,7 +509,8 @@ function Historia() {
                     <p className="mt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">Taller original · década de 1970</p>
                 </Reveal>
                 <Reveal delay={0.1}>
-                    <h2 className="font-display text-3xl font-bold leading-tight text-foreground sm:text-4xl">50 años construyendo confianza.</h2>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Nuestra historia</p>
+                    <h2 className="font-display mt-4 text-3xl font-bold leading-tight text-foreground sm:text-4xl">50 años construyendo confianza.</h2>
                     <p className="mt-5 leading-relaxed text-muted-foreground">
                         Empezamos como un taller familiar de madera. Hoy somos una organización industrial con más de 100 personas que acompaña a empresas líderes en cada envío. Cambió la escala; no cambió el compromiso con cada pedido.
                     </p>
@@ -538,7 +587,7 @@ function Contacto() {
         <section id="contacto" className="bg-neutral-950 py-20 text-white lg:py-28">
             <div className="rail grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
                 <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Contacto</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-red-400">Contacto</p>
                     <h2 className="font-display mt-4 text-3xl font-bold leading-tight sm:text-4xl">Solicitar asesoramiento</h2>
                     <p className="mt-5 leading-relaxed text-white/70">Contanos qué necesitás proteger, almacenar o trasladar. Un asesor técnico analiza su caso y propone la solución de embalaje adecuada.</p>
                     <ul className="mt-10 space-y-4 text-white/75">
