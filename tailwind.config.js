@@ -83,10 +83,24 @@ module.exports = {
 						height: '0',
 					},
 				},
+				// A single "nudge" bump baked into a longer cycle, so it reads as an
+				// occasional attention call rather than a constant, distracting pulse.
+				'whatsapp-pulse': {
+					'0%, 88%, 100%': { transform: 'scale(1)' },
+					'92%': { transform: 'scale(1.12)' },
+					'96%': { transform: 'scale(1)' },
+				},
+				'whatsapp-ring': {
+					'0%, 85%, 100%': { transform: 'scale(1)', opacity: '0' },
+					'88%': { transform: 'scale(1)', opacity: '0.55' },
+					'99%': { transform: 'scale(1.7)', opacity: '0' },
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
+				'whatsapp-pulse': 'whatsapp-pulse 6s ease-in-out infinite',
+				'whatsapp-ring': 'whatsapp-ring 6s ease-out infinite',
 			},
 		},
 	},

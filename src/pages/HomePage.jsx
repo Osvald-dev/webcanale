@@ -1,21 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Menu, X, ArrowRight, Ruler, Cpu, Cog, Hand, ClipboardCheck, Truck, ShieldCheck, Leaf, Award, Phone, Mail, MapPin } from 'lucide-react';
+import { Menu, X, ArrowRight, Loader2, Ruler, Cpu, Cog, Hand, ClipboardCheck, Truck, ShieldCheck, Leaf, Award, Phone, Mail, MapPin } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 import Reveal from '@/components/Reveal';
 import CountUp from '@/components/CountUp';
 import Seo from '@/components/Seo';
-import logo from '@/assets/img/Canale.png'
+import WhatsAppIcon from '@/components/WhatsAppIcon';
+import WhatsAppLogo from '@/components/WhatsAppLogo';
+import logo from '@/assets/img/logocanale.png';
+import hero from '@/assets/img/hero.webp';
+import pallets1 from '@/assets/img/productos/pallets-1.webp';
+import pallets2 from '@/assets/img/productos/pallets-2.webp';
+import pallets3 from '@/assets/img/productos/pallets-3.webp';
+import cajones1 from '@/assets/img/productos/cajones-1.webp';
+import cajones2 from '@/assets/img/productos/cajones-2.webp';
+import cajones3 from '@/assets/img/productos/cajones-3.webp';
+import pellets1 from '@/assets/img/productos/pellets-1.webp';
+import pellets2 from '@/assets/img/productos/pellets-2.webp';
+import pellets3 from '@/assets/img/productos/pellets-3.webp';
+import iconDiseno from '@/assets/img/diseño.webp';
+import iconCapacidad from '@/assets/img/capacidad.webp';
+import iconLogistica from '@/assets/img/logistica-propia.webp';
+import cnc from '@/assets/img/cnc.webp';
+import logistica from '@/assets/img/camiones.webp';
+import historia from '@/assets/img/historia.webp'
 
-
-const IMG = {
-    hero: 'https://images.hostinger.com/f59067b6-81d5-45a4-b456-3c312e0ba51b.png',
-    pallets: 'https://images.hostinger.com/dbbf902b-7581-4317-9b74-06ac4d02c057.png',
-    cajones: 'https://images.hostinger.com/cbc7d1aa-c7e2-4408-ad24-f2dfacc02e05.png',
-    pellets: 'https://images.hostinger.com/9ef6861a-cca9-4535-ae8a-1cf2eb12d736.png',
-    cnc: 'https://images.hostinger.com/c7227261-618e-4db1-9fc9-fff536b9d594.png',
-    logistica: 'https://images.hostinger.com/312fa1ff-ee4c-4848-b2d6-b6417871372d.png',
-    historia: 'https://images.hostinger.com/b99fd9b1-e5a0-4f69-ac46-b14d5bd49dda.png',
-};
 
 const NAV = [
     { label: 'Productos', href: '#productos' },
@@ -26,6 +35,10 @@ const NAV = [
     { label: 'Contacto', href: '#contacto' },
 ];
 
+const TELEFONO_E164 = '5493525530410';
+const WHATSAPP_MENSAJE = 'Hola, quiero consultar sobre embalajes de madera';
+const WHATSAPP_URL = `https://wa.me/${TELEFONO_E164}?text=${encodeURIComponent(WHATSAPP_MENSAJE)}`;
+
 function Header() {
     const [open, setOpen] = useState(false);
     return (
@@ -35,7 +48,7 @@ function Header() {
                     <img
                         src={logo}
                         alt="Canale SRL"
-                        className="h-12 w-auto"
+                        className="h-16 w-auto"
                     />
                 </a>
                 <nav aria-label="Navegación principal" className="hidden items-center gap-7 lg:flex">
@@ -69,7 +82,7 @@ function Header() {
 function Hero() {
     return (
         <section id="inicio" className="relative min-h-[100dvh] w-full overflow-hidden bg-neutral-950">
-            <img src={IMG.hero} alt="Planta industrial de Canale SRL con pallets de madera y cajones para exportación en Córdoba, Argentina" className="absolute inset-0 h-full w-full object-cover opacity-70" />
+            <img src={hero} alt="Planta industrial de Canale SRL con pallets de madera y cajones para exportación en Córdoba, Argentina" className="absolute inset-0 h-full w-full object-cover opacity-70" />
             <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/80 to-neutral-950/20" aria-hidden="true" />
             <div className="rail relative flex min-h-[100dvh] flex-col justify-center py-28">
                 <Reveal>
@@ -105,9 +118,9 @@ function Hero() {
 const STATS = [
     { value: 50, prefix: '+', label: 'años de trayectoria' },
     { value: 100, prefix: '+', label: 'colaboradores' },
-    { value: null, label: 'Diseño personalizado' },
-    { value: null, label: 'Capacidad productiva' },
-    { value: null, label: 'Logística propia' },
+    { value: null, label: 'Diseño personalizado', icon: iconDiseno },
+    { value: null, label: 'Capacidad productiva', icon: iconCapacidad },
+    { value: null, label: 'Logística propia', icon: iconLogistica },
 ];
 
 function Autoridad() {
@@ -121,24 +134,29 @@ function Autoridad() {
                 </Reveal>
                 <Reveal delay={0.1}>
                     <p className="text-lg leading-relaxed text-muted-foreground">
-                        Desde Colonia Caroya, Córdoba abastecemos a empresas medianas y grandes de todo el país. Combinamos producción manual y automatizada, tecnología CNC y logística propia para resolver necesidades reales de embalaje industrial, almacenamiento y exportación.
+                        Desde Colonia Caroya, Córdoba, abastecemos con foco estratégico a empresas medianas y grandes de la región y provincias aledañas. Combinamos producción manual y automatizada, tecnología CNC y logística propia para resolver necesidades reales de embalaje industrial, almacenamiento y exportación.
                     </p>
                 </Reveal>
             </div>
-            <div className="rail mt-16 grid grid-cols-2 divide-border border-t border-border md:grid-cols-5 md:divide-x">
-                {STATS.map((s) => (
-                    <div key={s.label} className="border-b border-border px-1 py-8 md:border-b-0 md:px-6">
-                        {s.value ? (
-                            <p className="font-display text-4xl font-extrabold text-foreground">
-                                <CountUp value={s.value} prefix={s.prefix} suffix={s.suffix} />
-                            </p>
-                        ) : (
-                            <span className="mb-3 block h-[3px] w-8 bg-primary" aria-hidden="true" />
-                        )}
-                        <p className="mt-2 text-sm font-medium uppercase tracking-wide text-muted-foreground">{s.label}</p>
-                    </div>
-                ))}
+        <div className="rail mt-16 grid grid-cols-2 divide-border border-t border-border md:grid-cols-5 md:divide-x">
+    {STATS.map((s, i) => (
+        <Reveal key={s.label} delay={i * 0.08}>
+            <div className="border-b border-border px-1 py-8 md:border-b-0 md:px-6">
+                {s.value ? (
+                    <p className="font-display text-4xl font-extrabold text-foreground">
+                        <CountUp value={s.value} prefix={s.prefix} suffix={s.suffix} />
+                    </p>
+                ) : (
+                    <>
+                        <img src={s.icon} alt="" aria-hidden="true" className="mb-3 h-8 w-8" />
+                        <span className="mb-3 block h-[3px] w-8 bg-primary" aria-hidden="true" />
+                    </>
+                )}
+                <p className="mt-2 text-sm font-medium uppercase tracking-wide text-muted-foreground">{s.label}</p>
             </div>
+        </Reveal>
+    ))}
+</div>
         </section>
     );
 }
@@ -147,8 +165,11 @@ const PRODUCTOS = [
     {
         id: 'pallets',
         title: 'Pallets y tarimas',
-        img: IMG.pallets,
-        alt: 'Pallets de madera nuevos apilados en la planta de Canale SRL',
+        images: [
+            { src: pallets1, alt: 'Pallets de madera nuevos apilados en la planta de Canale SRL' },
+            { src: pallets2, alt: 'Pallets de madera reforzados listos para despacho en Canale SRL' },
+            { src: pallets3, alt: 'Operario de Canale SRL controlando la calidad de un pallet de madera' },
+        ],
         text: 'Soluciones para la manipulación, el almacenamiento y el movimiento de mercadería dentro y fuera de planta. Medidas estándar o según su sistema logístico.',
         benefit: 'Económicos, reciclables y adaptables a su operación.',
         wide: true,
@@ -156,8 +177,11 @@ const PRODUCTOS = [
     {
         id: 'cajones',
         title: 'Cajones y embalajes',
-        img: IMG.cajones,
-        alt: 'Cajón de madera a medida para exportación en fabricación',
+        images: [
+            { src: cajones1, alt: 'Cajón de madera a medida para exportación en fabricación' },
+            { src: cajones2, alt: 'Cajones de madera apilados en la planta de Canale SRL listos para exportación' },
+            { src: cajones3, alt: 'Detalle de ensamblaje de un cajón de madera para embalaje industrial en Canale SRL' },
+        ],
         text: 'Embalajes de madera diseñados a medida para proteger productos durante el almacenamiento, el traslado y la exportación, con distintos niveles de protección.',
         benefit: 'Diseño personalizado y aptos para exportación (NIMF 15).',
         wide: true,
@@ -165,13 +189,61 @@ const PRODUCTOS = [
     {
         id: 'pellets',
         title: 'Pellets',
-        img: IMG.pellets,
-        alt: 'Pellets de madera para calefacción y calderas industriales',
+        images: [
+            { src: pellets1, alt: 'Pellets de madera para calefacción y calderas industriales' },
+            { src: pellets2, alt: 'Bolsas de pellets de madera apiladas para despacho en Canale SRL' },
+            { src: pellets3, alt: 'Primer plano de pellets de madera producidos en la planta de Canale SRL' },
+        ],
         text: 'Biocombustible de madera para calefacción doméstica, calderas industriales, industria alimenticia y aplicaciones animales.',
         benefit: 'Alto poder calórico y abastecimiento constante.',
         wide: false,
     },
 ];
+
+function ProductoCarousel({ images }) {
+    const [api, setApi] = useState(null);
+    const [selected, setSelected] = useState(0);
+
+    useEffect(() => {
+        if (!api) return undefined;
+
+        const onSelect = () => setSelected(api.selectedScrollSnap());
+        onSelect();
+        api.on('select', onSelect);
+        api.on('reInit', onSelect);
+
+        return () => {
+            api.off('select', onSelect);
+            api.off('reInit', onSelect);
+        };
+    }, [api]);
+
+    return (
+        <Carousel setApi={setApi} opts={{ loop: true }} className="relative h-64 w-full lg:h-full lg:min-h-[280px]">
+            <CarouselContent className="ml-0 h-full">
+                {images.map((image) => (
+                    <CarouselItem key={image.src} className="h-full pl-0">
+                        <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
+                    </CarouselItem>
+                ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-2 top-1/2 hidden h-8 w-8 -translate-y-1/2 rounded-none border-border bg-white text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.08)] hover:bg-white hover:text-primary lg:flex" />
+            <CarouselNext className="right-2 top-1/2 hidden h-8 w-8 -translate-y-1/2 rounded-none border-border bg-white text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.08)] hover:bg-white hover:text-primary lg:flex" />
+            <div className="absolute inset-x-0 bottom-3 flex justify-center gap-2">
+                {images.map((image, i) => (
+                    <button
+                        key={image.src}
+                        type="button"
+                        onClick={() => api?.scrollTo(i)}
+                        aria-label={`Ver imagen ${i + 1} de ${images.length}`}
+                        aria-current={i === selected}
+                        className={`h-1.5 w-1.5 transition-colors ${i === selected ? 'bg-white' : 'bg-white/50'}`}
+                    />
+                ))}
+            </div>
+        </Carousel>
+    );
+}
 
 function Productos() {
     return (
@@ -184,11 +256,11 @@ function Productos() {
                 <div className="mt-14 grid gap-8 lg:grid-cols-2">
                     {PRODUCTOS.map((p, i) => (
                         <Reveal key={p.id} delay={i * 0.08} className={p.id === 'pellets' ? 'lg:col-span-2' : ''}>
-                            <article className={`group flex h-full flex-col overflow-hidden border border-border bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)] ${p.id === 'pellets' ? 'lg:flex-row' : ''}`}>
+                            <article className={`flex h-full flex-col overflow-hidden border border-border bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)] ${p.id === 'pellets' ? 'lg:flex-row' : ''}`}>
                                 <div className={`overflow-hidden ${p.id === 'pellets' ? 'lg:w-1/2' : ''}`}>
-                                    <img src={p.img} alt={p.alt} className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] lg:h-full lg:min-h-[280px]" />
+                                    <ProductoCarousel images={p.images} />
                                 </div>
-                                <div className={`flex flex-1 flex-col p-8 ${p.id === 'pellets' ? 'lg:w-1/2 lg:justify-center' : ''}`}>
+                                <div className={`group flex flex-1 flex-col p-8 ${p.id === 'pellets' ? 'lg:w-1/2 lg:justify-center' : ''}`}>
                                     <h3 className="font-display text-2xl font-bold text-foreground">{p.title}</h3>
                                     <p className="mt-4 leading-relaxed text-muted-foreground">{p.text}</p>
                                     <p className="mt-5 border-l-2 border-primary pl-4 text-sm font-semibold text-foreground">{p.benefit}</p>
@@ -303,7 +375,7 @@ function Capacidad() {
         <section id="empresa" className="bg-white py-20 lg:py-28">
             <div className="rail grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
                 <Reveal>
-                    <img src={IMG.cnc} alt="Máquina CNC de corte de madera operando en la planta de Canale SRL" className="h-[360px] w-full object-cover lg:h-[460px]" />
+                    <img src={cnc} alt="Máquina CNC de corte de madera operando en la planta de Canale SRL" className="h-[360px] w-full object-cover lg:h-[460px]" />
                 </Reveal>
                 <Reveal delay={0.1}>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Capacidad y tecnología</p>
@@ -324,7 +396,7 @@ function Capacidad() {
             <div className="rail mt-16">
                 <Reveal>
                     <div className="relative overflow-hidden">
-                        <img src={IMG.logistica} alt="Camiones propios de Canale SRL cargados con pallets de madera en el predio logístico" className="h-[300px] w-full object-cover lg:h-[420px]" />
+                        <img src={logistica} alt="Camiones propios de Canale SRL cargados con pallets de madera en el predio logístico" className="h-[300px] w-full object-cover lg:h-[420px]" />
                         <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/85 to-transparent" aria-hidden="true" />
                         <div className="absolute bottom-0 left-0 p-8 lg:p-12">
                             <p className="font-display max-w-xl text-2xl font-bold text-white lg:text-3xl">Logística propia: control real sobre la entrega.</p>
@@ -385,7 +457,7 @@ function Historia() {
         <section className="bg-white py-20 lg:py-28">
             <div className="rail grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
                 <Reveal>
-                    <img src={IMG.historia} alt="Fotografía histórica del taller original de Canale en la década de 1970" className="w-full object-cover grayscale" />
+                    <img src={historia} alt="Fotografía histórica del taller original de Canale en la década de 1970" className="w-full object-cover grayscale" />
                     <p className="mt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">Taller original · década de 1970</p>
                 </Reveal>
                 <Reveal delay={0.1}>
@@ -413,25 +485,54 @@ function Historia() {
 
 const TIPOS = ['Pallets / Tarimas', 'Cajones / Embalajes', 'Embalaje para exportación', 'Pellets', 'Otra necesidad'];
 
+const DIRECCION = 'Pedro Patat (N) 1500, Colonia Caroya, Córdoba, Argentina';
+// Stable link to the business's own Google Maps listing — an address-search
+// URL can resolve to a neighboring business instead of Canale SRL.
+const MAPS_URL = 'https://maps.app.goo.gl/6fmCW1guPV7323iSA';
+
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mbgjojpv';
+const ERROR_GENERICO = 'No pudimos enviar tu consulta. Probá de nuevo o escribinos directamente a canaleventas@canalesrl.com.ar.';
+
 function Contacto() {
     const [form, setForm] = useState({ nombre: '', empresa: '', email: '', telefono: '', tipo: TIPOS[0], mensaje: '' });
-    const [sent, setSent] = useState(false);
+    // 'idle' | 'submitting' | 'sent' | 'error'
+    const [status, setStatus] = useState('idle');
     const [error, setError] = useState('');
     const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         if (!form.nombre || !form.empresa || !form.email) {
             setError('Completá nombre, empresa y email para que podamos responderte.');
             return;
         }
+
         setError('');
-        const body = `Nombre: ${form.nombre}%0D%0AEmpresa: ${form.empresa}%0D%0AEmail: ${form.email}%0D%0ATeléfono: ${form.telefono}%0D%0ATipo de solución: ${form.tipo}%0D%0A%0D%0A${form.mensaje}`;
-        window.location.href = `mailto:ventas@canale.com.ar?subject=Consulta%20B2B%20-%20${encodeURIComponent(form.empresa)}&body=${body}`;
-        setSent(true);
+        setStatus('submitting');
+
+        try {
+            const response = await fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify(form),
+            });
+
+            if (response.ok) {
+                setStatus('sent');
+                return;
+            }
+
+            const data = await response.json().catch(() => null);
+            setError(data?.errors?.map((e) => e.message).filter(Boolean).join(' ') || ERROR_GENERICO);
+            setStatus('error');
+        } catch {
+            setError(ERROR_GENERICO);
+            setStatus('error');
+        }
     };
 
-    const field = 'mt-2 w-full border border-input bg-white px-4 py-3 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary';
+    const isSubmitting = status === 'submitting';
+    const field = 'mt-2 w-full border border-input bg-white px-4 py-3 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary disabled:opacity-60';
 
     return (
         <section id="contacto" className="bg-neutral-950 py-20 text-white lg:py-28">
@@ -442,21 +543,28 @@ function Contacto() {
                     <p className="mt-5 leading-relaxed text-white/70">Contanos qué necesitás proteger, almacenar o trasladar. Un asesor técnico analiza su caso y propone la solución de embalaje adecuada.</p>
                     <ul className="mt-10 space-y-4 text-white/75">
                         <li className="flex items-center gap-3"><Phone className="h-4 w-4 text-primary" strokeWidth={1.75} /> +54 9 3525 53-0410</li>
+                        <li className="flex items-center gap-3">
+                            <WhatsAppIcon className="h-4 w-4 text-primary" />
+                            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-primary">Escribinos por WhatsApp</a>
+                        </li>
                         <li className="flex items-center gap-3"><Mail className="h-4 w-4 text-primary" strokeWidth={1.75} /> canaleventas@canalesrl.com.ar</li>
-                        <li className="flex items-center gap-3"><MapPin className="h-4 w-4 text-primary" strokeWidth={1.75} /> Córdoba, Argentina</li>
+                        <li className="flex items-center gap-3">
+                            <MapPin className="h-4 w-4 shrink-0 text-primary" strokeWidth={1.75} />
+                            <a href={MAPS_URL} target="_blank" rel="noreferrer" className="hover:text-primary">{DIRECCION}</a>
+                        </li>
                     </ul>
                 </div>
                 <div className="bg-white p-7 text-foreground lg:p-10">
-                    {sent ? (
+                    {status === 'sent' ? (
                         <div className="flex h-full flex-col items-start justify-center py-10">
                             <ClipboardCheck className="h-10 w-10 text-primary" strokeWidth={1.5} />
                             <h3 className="font-display mt-5 text-2xl font-bold">Gracias por su consulta</h3>
-                            <p className="mt-3 text-muted-foreground">Se abrió su cliente de correo con los datos cargados. Si no ocurrió, escribinos a ventas@canale.com.ar y te respondemos a la brevedad.</p>
-                            <button type="button" onClick={() => setSent(false)} className="mt-7 text-sm font-semibold uppercase tracking-wide text-primary">Enviar otra consulta</button>
+                            <p className="mt-3 text-muted-foreground">Recibimos tu mensaje. Un asesor técnico se va a comunicar a la brevedad.</p>
+                            <button type="button" onClick={() => setStatus('idle')} className="mt-7 text-sm font-semibold uppercase tracking-wide text-primary">Enviar otra consulta</button>
                         </div>
                     ) : (
                         <form onSubmit={onSubmit} noValidate>
-                            <div className="grid gap-5 sm:grid-cols-2">
+                            <fieldset disabled={isSubmitting} className="grid gap-5 sm:grid-cols-2">
                                 <div>
                                     <label htmlFor="nombre" className="text-sm font-semibold">Nombre</label>
                                     <input id="nombre" className={field} value={form.nombre} onChange={set('nombre')} placeholder="Nombre y apellido" />
@@ -483,16 +591,39 @@ function Contacto() {
                                     <label htmlFor="mensaje" className="text-sm font-semibold">Mensaje / necesidad</label>
                                     <textarea id="mensaje" rows={4} className={field} value={form.mensaje} onChange={set('mensaje')} placeholder="Producto, medidas, volumen estimado, destino..." />
                                 </div>
-                            </div>
-                            {error && <p className="mt-4 text-sm font-medium text-primary">{error}</p>}
-                            <button type="submit" className="mt-7 inline-flex min-h-[52px] w-full items-center justify-center gap-2 bg-primary px-7 text-sm font-semibold uppercase tracking-wide text-primary-foreground transition-transform hover:brightness-110 active:scale-[0.98] sm:w-auto">
-                                Enviar consulta <ArrowRight className="h-4 w-4" strokeWidth={2} />
+                            </fieldset>
+                            {error && <p role="alert" className="mt-4 text-sm font-medium text-primary">{error}</p>}
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="mt-7 inline-flex min-h-[52px] w-full items-center justify-center gap-2 bg-primary px-7 text-sm font-semibold uppercase tracking-wide text-primary-foreground transition-transform hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+                            >
+                                {isSubmitting ? (
+                                    <>Enviando <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} /></>
+                                ) : (
+                                    <>Enviar consulta <ArrowRight className="h-4 w-4" strokeWidth={2} /></>
+                                )}
                             </button>
                         </form>
                     )}
                 </div>
             </div>
         </section>
+    );
+}
+
+function WhatsAppFloating() {
+    return (
+        <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Contactar por WhatsApp"
+            className="fixed bottom-6 right-6 z-40 flex h-16 w-16 items-center justify-center"
+        >
+            <span className="absolute inset-0 rounded-full bg-[#25D366] animate-whatsapp-ring" aria-hidden="true" />
+            <WhatsAppLogo className="relative h-14 w-14 drop-shadow-lg transition-transform animate-whatsapp-pulse hover:scale-110" />
+        </a>
     );
 }
 
@@ -520,6 +651,29 @@ function Footer() {
     );
 }
 
+const SITE_URL = 'https://canale.com.ar';
+
+const ORGANIZATION_SCHEMA = {
+    '@context': 'https://schema.org',
+    '@type': ['Organization', 'LocalBusiness'],
+    '@id': `${SITE_URL}/#organization`,
+    name: 'Canale SRL',
+    url: `${SITE_URL}/`,
+    logo: `${SITE_URL}${logo}`,
+    image: `${SITE_URL}${hero}`,
+    description: 'Fabricante industrial de pallets, tarimas, cajones, embalajes personalizados y pellets de madera para la industria argentina.',
+    telephone: `+${TELEFONO_E164}`,
+    email: 'canaleventas@canalesrl.com.ar',
+    address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Pedro Patat (N) 1500',
+        addressLocality: 'Colonia Caroya',
+        addressRegion: 'Córdoba',
+        postalCode: '5223',
+        addressCountry: 'AR',
+    },
+};
+
 export default function HomePage() {
     return (
         <>
@@ -527,8 +681,9 @@ export default function HomePage() {
                 <title>Canale SRL | Pallets, tarimas y embalajes de madera industriales</title>
                 <meta name="description" content="Canale SRL: 50 años fabricando pallets, tarimas, cajones y embalajes de madera personalizados para la industria argentina. Diseño a medida, CNC, NIMF 15 e ISO 9001. Colonia Caroya - Córdoba, Argentina." />
                 <html lang="es" />
+                <script type="application/ld+json">{JSON.stringify(ORGANIZATION_SCHEMA)}</script>
             </Helmet>
-            <Seo title="Canale SRL | Embalajes de madera industriales" description="Pallets, tarimas, cajones y embalajes personalizados para empresas. 50 años de trayectoria en Colonia Caroya - Córdoba, Argentina." image={IMG.hero} siteName="Canale SRL" />
+            <Seo title="Canale SRL | Embalajes de madera industriales" description="Pallets, tarimas, cajones y embalajes personalizados para empresas. 50 años de trayectoria en Colonia Caroya - Córdoba, Argentina." image={hero} siteName="Canale SRL" url="https://canale.com.ar/" />
             <Header />
             <main>
                 <Hero />
@@ -543,6 +698,7 @@ export default function HomePage() {
                 <Contacto />
             </main>
             <Footer />
+            <WhatsAppFloating />
         </>
     );
 }

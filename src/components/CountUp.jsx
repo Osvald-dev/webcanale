@@ -3,15 +3,17 @@ import React, { useEffect, useRef, useState } from 'react';
 const EASE_OUT_CUBIC = (progress) => 1 - Math.pow(1 - progress, 3);
 
 const CountUp = ({ value, duration = 1600, decimals = 0, prefix = '', suffix = '', locale, className = '' }) => {
-    const [display, setDisplay] = useState(0);
+    const target = Number(value) || 0;
+    // Starts at the final value so SSR/first paint is correct with no JS.
+    // The effect below only runs client-side, post-hydration, and resets to
+    // 0 to play the count-up once the element scrolls into view.
+    const [display, setDisplay] = useState(target);
     const ref = useRef(null);
 
     useEffect(() => {
         const node = ref.current;
-        const target = Number(value) || 0;
 
         if (!node || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            setDisplay(target);
             return undefined;
         }
 
@@ -20,6 +22,7 @@ const CountUp = ({ value, duration = 1600, decimals = 0, prefix = '', suffix = '
             if (!entry.isIntersecting) return;
 
             observer.disconnect();
+            setDisplay(0);
 
             const start = performance.now();
             const tick = (now) => {

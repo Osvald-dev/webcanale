@@ -298,7 +298,9 @@ if (window.navigation && window.self !== window.top) {
 const addTransformIndexHtml = {
 	name: 'add-transform-index-html',
 	transformIndexHtml(html) {
-		const tags = [
+		// Horizons editor diagnostics (postMessage to the parent iframe) — dev-only,
+		// must not ship in the production bundle.
+		const tags = isDev ? [
 			{
 				tag: 'script',
 				attrs: { type: 'module' },
@@ -329,7 +331,7 @@ const addTransformIndexHtml = {
 				children: configNavigationHandler,
 				injectTo: 'head',
 			},
-		];
+		] : [];
 
 		if (!isDev && process.env.TEMPLATE_BANNER_SCRIPT_URL && process.env.TEMPLATE_REDIRECT_URL) {
 			tags.push(
@@ -368,7 +370,7 @@ logger.error = (msg, options) => {
 }
 
 export default defineConfig({
-	base: '/webcanale/',
+	base: '/',
 	optimizeDeps: {
 		include: allDeps,
 	},
