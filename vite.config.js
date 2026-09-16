@@ -370,7 +370,7 @@ logger.error = (msg, options) => {
 }
 
 export default defineConfig({
-	base: '/',
+	base: '/webcanale/',
 	optimizeDeps: {
 		include: allDeps,
 	},
