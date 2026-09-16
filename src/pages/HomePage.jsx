@@ -9,7 +9,7 @@ import Seo from '@/components/Seo';
 import WhatsAppIcon from '@/components/WhatsAppIcon';
 import WhatsAppLogo from '@/components/WhatsAppLogo';
 import logo from '@/assets/img/logocanale.png';
-import hero from '@/assets/img/canaleempresa.webp';
+import hero from '@/assets/img/hero.webp';
 import pallets1 from '@/assets/img/productos/pallets-1.webp';
 import pallets2 from '@/assets/img/productos/pallets-2.webp';
 import pallets3 from '@/assets/img/productos/pallets-3.webp';
@@ -19,6 +19,9 @@ import cajones3 from '@/assets/img/productos/cajones-3.webp';
 import pellets1 from '@/assets/img/productos/pellets-1.webp';
 import pellets2 from '@/assets/img/productos/pellets-2.webp';
 import pellets3 from '@/assets/img/productos/pellets-3.webp';
+import remanufacturas1 from '@/assets/img/productos/remanufacturas-1.webp';
+import remanufacturas2 from '@/assets/img/productos/remanufacturas-2.webp';
+import remanufacturas3 from '@/assets/img/productos/remanufacturas-3.webp';
 import cnc from '@/assets/img/cnc.webp';
 import logistica from '@/assets/img/camiones.webp';
 import historia from '@/assets/img/historia.webp'
@@ -106,7 +109,7 @@ function Header() {
                     <motion.nav
                         id="menu-movil"
                         aria-label="Navegación móvil"
-                        className="absolute inset-x-0 top-full z-50 border-t border-border/60 bg-white/90 shadow-lg backdrop-blur-md lg:hidden"
+                        className="absolute inset-x-0 top-full z-50 border-t border-border/60 bg-white shadow-lg lg:hidden"
                         initial={{ opacity: 0, y: -8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
@@ -245,6 +248,18 @@ const PRODUCTOS = [
         benefit: 'Alto poder calórico y abastecimiento constante.',
         wide: false,
     },
+    {
+        id: 'remanufacturas',
+        title: 'Remanufacturas de madera',
+        images: [
+            { src: remanufacturas1, alt: 'Listones de madera remanufacturada apilados en la planta de Canale SRL' },
+            { src: remanufacturas2, alt: 'Machimbre de madera industrializada a medida producido por Canale SRL' },
+            { src: remanufacturas3, alt: 'Detalle de terminación de madera remanufacturada a medida en Canale SRL' },
+        ],
+        text: 'Listones, machimbres y madera industrializada a medida, con la precisión dimensional y la variedad de terminaciones que cada proyecto necesita.',
+        benefit: 'Medidas exactas, variedad de acabados y entrega puntual.',
+        wide: false,
+    },
 ];
 
 function ProductoCarousel({ images }) {
@@ -302,12 +317,12 @@ function Productos() {
                 </Reveal>
                 <div className="mt-14 grid gap-8 lg:grid-cols-2">
                     {PRODUCTOS.map((p, i) => (
-                        <Reveal key={p.id} delay={i * 0.08} className={p.id === 'pellets' ? 'lg:col-span-2' : ''}>
-                            <article className={`flex h-full flex-col overflow-hidden border border-border bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)] ${p.id === 'pellets' ? 'lg:flex-row' : ''}`}>
-                                <div className={`overflow-hidden ${p.id === 'pellets' ? 'lg:w-1/2' : ''}`}>
+                        <Reveal key={p.id} delay={i * 0.08}>
+                            <article className="flex h-full flex-col overflow-hidden border border-border bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+                                <div className="overflow-hidden">
                                     <ProductoCarousel images={p.images} />
                                 </div>
-                                <div className={`group flex flex-1 flex-col p-8 ${p.id === 'pellets' ? 'lg:w-1/2 lg:justify-center' : ''}`}>
+                                <div className="group flex flex-1 flex-col p-8">
                                     <h3 className="font-display text-2xl font-bold text-foreground">{p.title}</h3>
                                     <p className="mt-4 leading-relaxed text-muted-foreground">{p.text}</p>
                                     <p className="mt-5 border-l-2 border-primary pl-4 text-sm font-semibold text-foreground">{p.benefit}</p>
@@ -505,8 +520,8 @@ function Historia() {
         <section className="bg-white py-20 lg:py-28">
             <div className="rail grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
                 <Reveal>
-                    <img src={historia} alt="Fotografía histórica del taller original de Canale en la década de 1970" className="w-full object-cover grayscale" />
-                    <p className="mt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">Taller original · década de 1970</p>
+                    <img src={historia} alt="Fotografía histórica de fábrica original de Canale en la década de 1970" className="w-full object-cover grayscale" />
+                    <p className="mt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">Fábrica inicial · década de 1970</p>
                 </Reveal>
                 <Reveal delay={0.1}>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">Nuestra historia</p>
